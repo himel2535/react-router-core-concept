@@ -1,6 +1,6 @@
 import React, { Suspense, useState } from 'react';
 import './user.css'
-import { Link } from 'react-router';
+import { Link, Navigate, useLocation } from 'react-router';
 import UserInfo from '../UserInfo/UserInfo';
 
 const User = ({user}) => {
@@ -10,6 +10,15 @@ const User = ({user}) => {
     const infoPromise=fetch(`https://jsonplaceholder.typicode.com/users/${id}`).then(res=>res.json())
 
     const [showInfo,setShowInfo]=useState(false)
+
+    const [visitHome,setVisitHome]=useState(false)
+
+    const location=useLocation();
+    console.log(location)
+
+    if(visitHome){
+        return <Navigate to="/"></Navigate>
+    };
     
     return (
         <div className='userStyle '>
@@ -26,6 +35,7 @@ const User = ({user}) => {
                     <UserInfo infoPromise={infoPromise}></UserInfo>
                 </Suspense>
             }
+            <button onClick={()=>setVisitHome(true)}>Visit Home</button>
 
         </div>
     );
